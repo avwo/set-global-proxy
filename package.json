@@ -5,7 +5,6 @@
   "author": "avenwu <avenwu@vip.qq.com>",
   "contributors": [],
   "license": "MIT",
-  "main": "./lib",
   "bugs": {
     "url": "https://github.com/avwo/set-global-proxy/issues"
   },
