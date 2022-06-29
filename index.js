@@ -39,7 +39,8 @@ exports.enableProxy = function(options) {
   return enableProxy({
     host: host,
     port: options.port,
-    bypass: bypass
+    bypass: bypass,
+    sudo: options.sudo
   });
 };
 
