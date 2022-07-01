@@ -7,4 +7,4 @@ export interface ProxyOptions {
 
 export function enableProxy(options: ProxyOptions): boolean;
 
-export function disableProxy(): boolean;
+export function disableProxy(sudo?: boolean): boolean;
