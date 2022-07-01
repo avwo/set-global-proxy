@@ -44,7 +44,7 @@ exports.enableProxy = function(options) {
   });
 };
 
-exports.disableProxy = function() {
+exports.disableProxy = function(sudo) {
   var disableProxy = getProxyMgr().disableProxy;
-  return disableProxy();
+  return disableProxy(sudo);
 };
