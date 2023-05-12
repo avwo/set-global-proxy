@@ -1,7 +1,7 @@
 {
   "name": "set-global-proxy",
   "description": "Set global proxy for PC",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "avenwu <avenwu@vip.qq.com>",
   "contributors": [],
   "license": "MIT",
@@ -13,7 +13,7 @@
     "global",
     "proxy"
   ],
-  "registry": "https://registry.npmjs.org/whistle",
+  "registry": "https://registry.npmjs.org/set-global-proxy",
   "repository": {
     "type": "git",
     "url": "https://github.com/avwo/set-global-proxy.git"
