@@ -40,7 +40,8 @@ exports.enableProxy = function(options) {
     host: host,
     port: options.port,
     bypass: bypass,
-    sudo: options.sudo
+    sudo: options.sudo,
+    proxyHelper: options.proxyHelper
   });
 };
 
@@ -48,3 +49,14 @@ exports.disableProxy = function(sudo) {
   var disableProxy = getProxyMgr().disableProxy;
   return disableProxy(sudo);
 };
+
+exports.getMacProxyHelper = function() {
+  return getProxyMgr().PROXY_HELPER;
+};
+
+exports.getUid = function(file) {
+  var getUid = getProxyMgr().getUid;
+  return getUid && getUid(file);
+};
+
+exports.getBypass = getBypass;
