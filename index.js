@@ -50,6 +50,10 @@ exports.disableProxy = function(sudo) {
   return disableProxy(sudo);
 };
 
+exports.getServerProxy = function(callback) {
+  return getProxyMgr().getServerProxy(callback);
+};
+
 exports.getMacProxyHelper = function() {
   return getProxyMgr().PROXY_HELPER;
 };

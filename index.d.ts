@@ -5,6 +5,19 @@ export interface ProxyOptions {
   sudo?: boolean;
 }
 
+export interface ServerProxy {
+  http: {
+    host?: string | undefined,
+    port?: string | undefined;
+  };
+  https: {
+    host?: string | undefined,
+    port?: string | undefined;
+  };
+}
+
+export function getProxyServer(callback: (err, conf: ServerProxy) => {}): void;
+
 export function enableProxy(options: ProxyOptions): boolean;
 
 export function disableProxy(sudo?: boolean): boolean;
