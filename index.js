@@ -30,16 +30,24 @@ function checkExists() {
   return fs.statSync(mac.PROXY_HELPER).size > 0;
 }
 
+function initProxyHelper() {
+  if (!checkExists()) {
+    var buf = fs.readFileSync(mac.PROXY_HELPER + '.zip');
+    var entry = new AdmZip(buf).getEntries()[0];
+    fs.writeFileSync(mac.PROXY_HELPER, entry.getData());
+  }
+}
+
 // only support mac & win
 function getProxyMgr() {
   if (platform === 'win32') {
     return win;
   }
   if (platform === 'darwin') {
-    if (!checkExists()) {
-      var buf = fs.readFileSync(mac.PROXY_HELPER + '.zip');
-      var entry = new AdmZip(buf).getEntries()[0];
-      fs.writeFileSync(mac.PROXY_HELPER, entry.getData());
+    try {
+      initProxyHelper();
+    } catch (e) {
+      initProxyHelper();
     }
     return mac;
   }
