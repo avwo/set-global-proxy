@@ -1,5 +1,7 @@
 var os = require('os');
 var net = require('net');
+var fs = require('fs');
+var AdmZip = require('adm-zip');
 var mac = require('./lib/mac');
 var win = require('./lib/win');
 
@@ -21,12 +23,24 @@ function getBypass(bypass) {
   });
 }
 
+function checkExists() {
+  if (!fs.existsSync(mac.PROXY_HELPER)) {
+    return false;
+  }
+  return fs.statSync(mac.PROXY_HELPER).size > 0;
+}
+
 // only support mac & win
 function getProxyMgr() {
   if (platform === 'win32') {
     return win;
   }
   if (platform === 'darwin') {
+    if (!checkExists()) {
+      var buf = fs.readFileSync(mac.PROXY_HELPER + '.zip');
+      var entry = new AdmZip(buf).getEntries()[0];
+      fs.writeFileSync(mac.PROXY_HELPER, entry.getData());
+    }
     return mac;
   }
   throw new Error('Platform ' + platform + ' is unsupported to set global proxy for now.');
