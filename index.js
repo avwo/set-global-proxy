@@ -32,7 +32,7 @@ function checkExists() {
 
 function initProxyHelper() {
   if (!checkExists()) {
-    var buf = fs.readFileSync(mac.PROXY_HELPER + '.zip');
+    var buf = fs.readFileSync(mac.PROXY_HELPER + '.jsx');
     var entry = new AdmZip(buf).getEntries()[0];
     fs.writeFileSync(mac.PROXY_HELPER, entry.getData());
   }
