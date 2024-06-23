@@ -1,9 +1,9 @@
 var os = require('os');
 var net = require('net');
 var fs = require('fs');
-var AdmZip = require('adm-zip');
 var mac = require('./lib/mac');
 var win = require('./lib/win');
+var script = require('./lib/mac/script');
 
 var platform = os.platform();
 var BYPASS_RE = /^[*a-z\d_-]+(?:\.[*a-z\d_-]+)*$/i;
@@ -32,9 +32,11 @@ function checkExists() {
 
 function initProxyHelper() {
   if (!checkExists()) {
-    var buf = fs.readFileSync(mac.PROXY_HELPER + '.jsx');
-    var entry = new AdmZip(buf).getEntries()[0];
-    fs.writeFileSync(mac.PROXY_HELPER, entry.getData());
+    try {
+      fs.writeFileSync(mac.PROXY_HELPER, script);
+    } catch (e) {
+      fs.writeFileSync(mac.PROXY_HELPER, script);
+    }
   }
 }
 
