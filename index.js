@@ -30,12 +30,14 @@ function checkExists() {
   return fs.statSync(mac.PROXY_HELPER).size > 0;
 }
 
-function initProxyHelper() {
-  if (!checkExists()) {
-    try {
+function initProxyHelper(retry) {
+  try {
+    if (!checkExists()) {
       fs.writeFileSync(mac.PROXY_HELPER, script);
-    } catch (e) {
-      fs.writeFileSync(mac.PROXY_HELPER, script);
+    }
+  } catch (e) {
+    if (!retry) {
+      initProxyHelper(true);
     }
   }
 }
@@ -46,11 +48,7 @@ function getProxyMgr() {
     return win;
   }
   if (platform === 'darwin') {
-    try {
-      initProxyHelper();
-    } catch (e) {
-      initProxyHelper();
-    }
+    initProxyHelper();
     return mac;
   }
   throw new Error('Platform ' + platform + ' is unsupported to set global proxy for now.');
