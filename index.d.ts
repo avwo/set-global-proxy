@@ -16,7 +16,7 @@ export interface ServerProxy {
   };
 }
 
-export function getProxyServer(callback: (err, conf: ServerProxy) => {}): void;
+export function getServerProxy(callback: (err, conf: ServerProxy) => {}): void;
 
 export function enableProxy(options: ProxyOptions): boolean;
 
