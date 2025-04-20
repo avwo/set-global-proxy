@@ -7,7 +7,15 @@ var script = require('./lib/mac/script');
 
 var platform = os.platform();
 var BYPASS_RE = /^[*a-z\d_-]+(?:\.[*a-z\d_-]+)*$/i;
-var CIDR_RE = /^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/;
+var CIDR_RE = /^([(a-z\d:.]+)\/\d{1,2}$/i;
+
+function isCIDR(host) {
+  host = CIDR_RE.exec(host);
+  if (!host) {
+    return false;
+  }
+  return net.isIP(host[1]);
+}
 
 function getBypass(bypass) {
   if (!bypass || typeof bypass !== 'string') {
@@ -16,7 +24,7 @@ function getBypass(bypass) {
   var map = {};
   bypass = bypass.trim().toLowerCase();
   return bypass.split(/[\s,;]+/).filter(function(host) {
-    if (!map[host] && (host === '<local>' || net.isIP(host) || BYPASS_RE.test(host) || CIDR_RE.test(host))) {
+    if (!map[host] && (host === '<local>' || net.isIP(host) || BYPASS_RE.test(host) || isCIDR(host))) {
       map[host] = 1;
       return true;
     }
