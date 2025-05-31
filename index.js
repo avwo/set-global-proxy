@@ -3,6 +3,7 @@ var net = require('net');
 var fs = require('fs');
 var mac = require('./lib/mac');
 var win = require('./lib/win');
+var linux = require('./lib/linux');
 var script = require('./lib/mac/script');
 
 var platform = os.platform();
@@ -51,7 +52,7 @@ function initProxyHelper(retry) {
   }
 }
 
-// only support mac & win
+// only support mac & win & linux for now
 function getProxyMgr() {
   if (platform === 'win32') {
     return win;
@@ -60,6 +61,10 @@ function getProxyMgr() {
     initProxyHelper();
     return mac;
   }
+  if (platform === 'linux') {
+    return linux;
+  }
+  // unsupported platform
   throw new Error('Platform ' + platform + ' is unsupported to set global proxy for now.');
 }
 

@@ -1,7 +1,7 @@
 export interface ProxyOptions {
   host: string;
   port: number;
-  bypass?: string;
+  bypass?: string[];
   sudo?: boolean;
 }
 
