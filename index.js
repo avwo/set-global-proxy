@@ -25,7 +25,7 @@ function getBypass(bypass) {
   var map = {};
   bypass = bypass.trim().toLowerCase();
   return bypass.split(/[\s,;]+/).filter(function(host) {
-    if (!map[host] && (host === '<local>' || net.isIP(host) || BYPASS_RE.test(host) || isCIDR(host))) {
+    if (!map[host] && (host === '<local>' || host === '<-loopback>' || net.isIP(host) || BYPASS_RE.test(host) || isCIDR(host))) {
       map[host] = 1;
       return true;
     }
