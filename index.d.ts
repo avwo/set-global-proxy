@@ -24,6 +24,8 @@ export function disableProxy(sudo?: boolean): boolean;
 
 export function getMacProxyHelper(): string | undefined;
 
+export function isMacProxyHelperUsable(proxyHelper?: string): boolean;
+
 export function getUid(file: string): number | undefined;
 
 export function getBypass(bypass: string): string[] | undefined;
