@@ -94,6 +94,14 @@ exports.getMacProxyHelper = function() {
   return getProxyMgr().PROXY_HELPER;
 };
 
+exports.isMacProxyHelperUsable = function(proxyHelper) {
+  var mgr = getProxyMgr();
+  if (typeof mgr.isHelperUsable !== 'function') {
+    return true;
+  }
+  return mgr.isHelperUsable(proxyHelper);
+};
+
 exports.getUid = function(file) {
   var getUid = getProxyMgr().getUid;
   return getUid && getUid(file);
