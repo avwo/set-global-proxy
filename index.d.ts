@@ -16,16 +16,12 @@ export interface ServerProxy {
   };
 }
 
-export function getServerProxy(callback: (err, conf: ServerProxy) => void): void;
+export function getServerProxy(callback: (err: Error | null, conf: ServerProxy) => void): void;
+
+export async function sudoMacProxyHelper(sudoPrompt: (cmd: string, callback: (err: Error | null, stdout?: string) => void) => void): Promise<void>;
 
 export function enableProxy(options: ProxyOptions): boolean;
 
 export function disableProxy(sudo?: boolean): boolean;
-
-export function getMacProxyHelper(): string | undefined;
-
-export function isMacProxyHelperUsable(proxyHelper?: string): boolean;
-
-export function getUid(file: string): number | undefined;
 
 export function getBypass(bypass: string): string[] | undefined;

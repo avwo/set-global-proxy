@@ -1,10 +1,8 @@
 var os = require('os');
 var net = require('net');
-var fs = require('fs');
 var mac = require('./lib/mac');
 var win = require('./lib/win');
 var linux = require('./lib/linux');
-var script = require('./lib/mac/script');
 
 var platform = os.platform();
 var BYPASS_RE = /^[*a-z\d_-]+(?:\.[*a-z\d_-]+)*$/i;
@@ -33,32 +31,12 @@ function getBypass(bypass) {
   });
 }
 
-function checkExists() {
-  if (!fs.existsSync(mac.PROXY_HELPER)) {
-    return false;
-  }
-  return fs.statSync(mac.PROXY_HELPER).size > 0;
-}
-
-function initProxyHelper(retry) {
-  try {
-    if (!checkExists()) {
-      fs.writeFileSync(mac.PROXY_HELPER, script);
-    }
-  } catch (e) {
-    if (!retry) {
-      initProxyHelper(true);
-    }
-  }
-}
-
 // only support mac & win & linux for now
 function getProxyMgr() {
   if (platform === 'win32') {
     return win;
   }
   if (platform === 'darwin') {
-    initProxyHelper();
     return mac;
   }
   if (platform === 'linux') {
@@ -76,9 +54,14 @@ exports.enableProxy = function(options) {
     host: host,
     port: options.port,
     bypass: bypass,
-    sudo: options.sudo,
-    proxyHelper: options.proxyHelper
+    sudo: options.sudo
   });
+};
+
+exports.sudoMacProxyHelper = function(sudoPrompt) {
+  if (platform === 'darwin') {
+    return mac.sudoProxyHelper(sudoPrompt);
+  }
 };
 
 exports.disableProxy = function(sudo) {
@@ -88,23 +71,6 @@ exports.disableProxy = function(sudo) {
 
 exports.getServerProxy = function(callback) {
   return getProxyMgr().getServerProxy(callback);
-};
-
-exports.getMacProxyHelper = function() {
-  return getProxyMgr().PROXY_HELPER;
-};
-
-exports.isMacProxyHelperUsable = function(proxyHelper) {
-  var mgr = getProxyMgr();
-  if (typeof mgr.isHelperUsable !== 'function') {
-    return true;
-  }
-  return mgr.isHelperUsable(proxyHelper);
-};
-
-exports.getUid = function(file) {
-  var getUid = getProxyMgr().getUid;
-  return getUid && getUid(file);
 };
 
 exports.getBypass = getBypass;
