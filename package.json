@@ -1,7 +1,7 @@
 {
   "name": "set-global-proxy",
   "description": "Set global proxy (macOS, Windows, Linux)",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "author": "avenwu <avenwu@vip.qq.com>",
   "contributors": [],
   "license": "MIT",
